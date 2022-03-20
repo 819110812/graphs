@@ -13,6 +13,17 @@ class PdfAdapter(BaseAdapter):
     def get_sentences(self) -> list:
         pass
 
-    def extract_text_from_pdf(self) -> str:
-        text = extract_text(self.path)
+    def get_words(self) -> list:
+        pass
+
+    @staticmethod
+    def extract_text_from_pdf(path) -> str:
+        text = extract_text(path)
         return text
+
+    def get_all_words_from_pdf(self) -> list[str]:
+        pass
+
+    def get_all_sentences_from_pdf(self) -> list[str]:
+        pass
+

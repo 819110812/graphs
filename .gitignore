@@ -1,0 +1,6 @@
+.idea
+.ipynb_checkpoints
+.vscode
+.pytest_cache
+zh_core_web_sm-0.1.0.tar.gz
+zh_core_web_sm-0.1.0
