@@ -23,6 +23,15 @@ function install() {
     brew install tesseract
 }
 
+function dev() {
+    install
+    docker
+}
+
+function docker() {
+    docker pull docker.elastic.co/elasticsearch/elasticsearch:8.1.0
+}
+
 
 
 case  ${1:-} in
@@ -35,8 +44,14 @@ case  ${1:-} in
     get_spacy_cn)
         get_spacy_cn
         ;;
+    install)
+        install
+        ;;
+    dev)
+        dev
+        ;;
     *)
-        echo "Usage: $0 run|generate_env"
+        echo "Usage: $0 run|generate_env|get_spacy_cn|install|dev"
         exit 1
         ;;
 esac
