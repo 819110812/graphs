@@ -1,4 +1,7 @@
+import pytest
 from pdfminer.high_level import extract_text
+
+from adapters.datasource.pdf_adpter import PdfAdapter
 from tools.parser import *
 import os
 
@@ -17,7 +20,7 @@ def test_should_get_sentences():
 
 def test_should_get_tokenized_sentence():
     inputs = "这是一条测试语句"
-    tokens = parse_tokenization(inputs)
+    tokens = parse_words(inputs)
     assert type(tokens) == list
     if len(tokens) > 0:
         assert type(tokens[0]) == str
@@ -31,6 +34,13 @@ def test_should_extract_image_successfully():
         assert type(bytes_list[0]) == bytes
 
 
+def test_should_map_word_to_image_successfully():
+    filepath = os.path.join(root, 'test_data/明源云采招系统操作手册.pdf')
+    pdf_adapter = PdfAdapter(filepath)
+    word_to_image_map = pdf_adapter.build_map_from_word_to_image()
+
+
+
 def test_should_save_file_successfully():
     filepath = os.path.join(root, 'test_data/明源云采招系统操作手册.pdf')
     bytes_list = extract_image_bytes_from_pdf(filepath)
@@ -40,12 +50,11 @@ def test_should_save_file_successfully():
     assert file.read() == bytes_list[0]
 
 
-def test_should_run_command_successfully():
-    # from_file = "../test_data/1.png"
-    from_file = os.path.join(root, 'test_data/1.png')
-    to_file = "test"
-    res = extract_text_from_image(from_file, to_file)
-    assert res.returncode == 0
+def test_should_extract_text_from_image_path_successfully():
+    filepath = os.path.join(root, "test_data/1.png")
+    text = extract_text_from_image(filepath)
+    assert type(text) == str
+
 
 
 
