@@ -15,10 +15,8 @@ class MongoDB(Database):
         myclient = pymongo.MongoClient(f"mongodb://{self._username}:{self._password}@{self._host}:{self._port}")
         dblist = myclient.list_database_names()
         if self._database_name in dblist:
-            print("database exists")
             return myclient[self._database_name]
         else:
-            print("database does not exist, creating")
             mydb = myclient[self._database_name]
             return mydb
 

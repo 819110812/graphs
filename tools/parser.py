@@ -1,10 +1,14 @@
 import logging
 import re
+import os
 import fitz
 import jieba
 import pytesseract
 from PIL import Image
 from io import BytesIO
+
+cur = os.path.abspath(os.path.dirname(__file__))
+root = os.path.abspath(os.path.join(cur, '..'))
 
 
 # O(n)
@@ -27,16 +31,29 @@ def parse_sentences(file_content: str) -> list:
     return sentences
 
 
-def clean_sentence(sent: str) -> str:
+def clean_sentence(sent: str, mode=None) -> str:
     # 去除空格和回车
     sent = sent.replace("\n", "").replace(" ", "")
+    # 去除数字
+    sent = clean_all_numbers(sent)
+    if mode == "key":
+        pass
     return sent
+
+
+def only_include_key_word_in_sentence(sent: str) -> str:
+    raise NotImplementedError
+
+
+def clean_all_numbers(content: str) -> str:
+    return re.sub(r'\d+', '', content)
 
 
 # O(n)
 # 判断是否是停用词
 def is_stopwords(word: str) -> bool:
-    stopwords_files = ["../data/cn_stopwords.txt", "../data/hit_stopwords.txt", "../data/scu_stopwords.txt"]
+    stopwords_files = [os.path.join(root, "data/cn_stopwords.txt"), os.path.join(root, "data/hit_stopwords.txt"),
+                       os.path.join(root, "data/scu_stopwords.txt")]
     stopwords = []
     for file in stopwords_files:
         stopwords += get_stopwords(file)
