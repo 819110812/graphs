@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-express
+  labels:
+    app: mongodb-express
+spec:
+  replicas: 1
+  selecor:
+    matchLabels:
+      app: mongodb-express
+  template:
+    metadata:
+      labels:
+        app: mongodb-express
+    spec:
+      volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
+      containers:
+        - name: mongodb-express
+          image: mongo-express
+          ports:
+            - containerPort: 8081
+          env:
